@@ -16,7 +16,7 @@ target_include_directories(AIOneNode PRIVATE
 )
 
 target_link_libraries(AIOneNode PRIVATE
-    MyLibrary
+    AIOne::Core
     ${CMAKE_JS_LIB}
 )
 
