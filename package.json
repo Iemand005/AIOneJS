@@ -1,7 +1,7 @@
 {
-  "name": "aionejs",
+  "name": "aione",
   "version": "1.0.0",
-  "description": "hi",
+  "description": "Native AI inference powered by llama.cpp",
   "homepage": "https://github.com/Iemand005/AIOneJS#readme",
   "bugs": {
     "url": "https://github.com/Iemand005/AIOneJS/issues"
@@ -14,6 +14,7 @@
   "author": "",
   "type": "commonjs",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
