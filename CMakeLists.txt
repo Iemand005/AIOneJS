@@ -23,9 +23,23 @@ if(NOT EXISTS "${NODE_API_HEADERS_DIR}/node_api.h")
         "Run 'npm install' or set NODE_API_HEADERS_DIR.")
 endif()
 
-add_library(AIOneNode MODULE
-    bindings/node/NodeAddon.cpp
-)
+if(EMSCRIPTEN)
+    add_executable(AIOneWeb
+        bindings/web/Main.cpp
+    )
+
+    target_link_libraries(AIOneWeb PRIVATE AIOneCore)
+
+    set_target_properties(AIOneWeb PROPERTIES
+        SUFFIX ".html"
+    )
+else()
+    add_library(AIOneNode SHARED
+        bindings/node/NodeAddon.cpp
+    )
+
+    target_link_libraries(AIOneNode PRIVATE AIOneCore)
+endif()
 
 target_include_directories(AIOneNode PRIVATE
     "${NODE_API_HEADERS_DIR}"
