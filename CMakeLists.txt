@@ -7,6 +7,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+if(EMSCRIPTEN)
+    add_compile_options("-sMEMORY64=1")
+    add_link_options("-sMEMORY64=1")
+endif()
+
 add_subdirectory(
     "../AIOne"
     "${CMAKE_CURRENT_BINARY_DIR}/AIOne"
