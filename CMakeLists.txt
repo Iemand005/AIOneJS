@@ -45,6 +45,9 @@ if(EMSCRIPTEN)
         -sENVIRONMENT=worker
         -sFORCE_FILESYSTEM=1
         -lworkerfs.js
+        -sALLOW_MEMORY_GROWTH=1
+        -sMAXIMUM_MEMORY=4GB
+        -sASSERTIONS=1
         --pre-js "${CMAKE_CURRENT_SOURCE_DIR}/workerfs-bridge.js"
     )
 
