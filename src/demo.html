@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AIOne Web</title>
+</head>
+<body>
+    <h2>AIOne Web</h2>
+
+    <input id="model" type="file" accept=".gguf">
+    <button id="load" disabled>Load model</button>
+
+    <p id="status">Select a GGUF file.</p>
+
+    <script type="module">
+        const input = document.getElementById("model");
+        const loadButton = document.getElementById("load");
+        const status = document.getElementById("status");
+
+        const moduleUrl = new URL("/build/emscripten-webgpu/AIOneWeb.html", location.href).href;
+
+        const workerCode = `
+            let session;
+
+            self.onmessage = async ({ data }) => {
+                try {
+                    if (data.type === "load") {
+                        const { default: createModule } =
+                            await import(data.moduleUrl);
+
+                        const Module = await createModule({
+                            locateFile: path =>
+                                new URL(path, data.moduleUrl).href
+                        });
+
+                        Module.FS.mkdir("/models");
+                        Module.FS.mount(
+                            Module.WORKERFS,
+                            { files: [data.file] },
+                            "/models"
+                        );
+
+                        session = new Module.ModelSession();
+
+                        session.loadModel(
+                            "/models/" + data.file.name
+                        );
+
+                        self.postMessage({
+                            type: "loaded"
+                        });
+                    }
+
+                    if (data.type === "generate") {
+                        const result = session.generate(
+                            data.prompt,
+                            data.maxTokens
+                        );
+
+                        self.postMessage({
+                            type: "generated",
+                            result
+                        });
+                    }
+                } catch (error) {
+                    self.postMessage({
+                        type: "error",
+                        message: error.message
+                    });
+                }
+            };
+        `;
+
+        const workerURL = URL.createObjectURL(
+            new Blob([workerCode], {
+                type: "text/javascript"
+            })
+        );
+
+        const worker = new Worker(workerURL, {
+            type: "module"
+        });
+
+        input.addEventListener("change", () => {
+            loadButton.disabled = !input.files.length;
+        });
+
+        loadButton.addEventListener("click", () => {
+            const file = input.files[0];
+
+            loadButton.disabled = true;
+
+            status.textContent =
+                `Loading ${file.name} (${(file.size / 1073741824).toFixed(2)} GB)...`;
+
+            worker.postMessage({
+                type: "load",
+                file,
+                moduleUrl
+            });
+        });
+
+        worker.addEventListener("message", ({ data }) => {
+            if (data.type === "loaded") {
+                status.textContent = "Model loaded!";
+            }
+
+            if (data.type === "generated") {
+                console.log(data.result);
+            }
+
+            if (data.type === "error") {
+                status.textContent = "Error: " + data.message;
+                loadButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
