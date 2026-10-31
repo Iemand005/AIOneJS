@@ -1,22 +1,26 @@
-
 {
-  "version": 6,
+  "version": 8,
   "configurePresets": [
     {
-      "name": "ninja",
-      "displayName": "Ninja (clangd)",
+      "name": "default",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build-ninja",
+      "binaryDir": "${sourceDir}/build",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+        "CMAKE_C_COMPILER": "cl",
+        "CMAKE_CXX_COMPILER": "cl"
       }
     }
   ],
   "buildPresets": [
     {
-      "name": "ninja",
-      "configurePreset": "ninja"
+      "name": "debug",
+      "configurePreset": "default",
+      "configuration": "Debug"
     }
   ]
 }
