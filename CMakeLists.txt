@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 project(AIOneJS LANGUAGES C CXX)
 
-add_subdirectory(../AIOne )
+add_subdirectory(
+    "../AIOne"
+    "${CMAKE_CURRENT_BINARY_DIR}/AIOne"
+)
 
 add_library(AIOneNode MODULE
     bindings/node/NodeAddon.cpp
