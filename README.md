@@ -1,1 +1,1 @@
-hi
+Native AI inference using llama.cpp. Load a gguf file and generate text with ease!
