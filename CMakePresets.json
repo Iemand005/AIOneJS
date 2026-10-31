@@ -35,35 +35,21 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/emscripten-webgpu",
       "toolchainFile": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
-      "environment": {
-        "EMSDK": "$env{EMSDK}",
-        "EM_CONFIG": "$env{EMSDK}/.emscripten"
-      },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_EXECUTABLE_SUFFIX": ".html",
-        "CMAKE_CROSSCOMPILING_EMULATOR": "node",
-
         "GGML_WEBGPU": "ON",
         "GGML_WEBGPU_JSPI": "OFF",
+        "EMDAWNWEBGPU_DIR": "C:/deps/emdawnwebgpu/emdawnwebgpu_pkg",
+        "BUILD_SHARED_LIBS": "OFF",
         "GGML_NATIVE": "OFF",
         "GGML_OPENMP": "OFF",
         "GGML_RPC": "OFF",
         "GGML_CUDA": "OFF",
         "GGML_VULKAN": "OFF",
-        "GGML_SYCL": "OFF",
-        "GGML_METAL": "OFF",
-
-        "BUILD_SHARED_LIBS": "OFF",
-
         "LLAMA_BUILD_TESTS": "OFF",
         "LLAMA_BUILD_EXAMPLES": "OFF",
         "LLAMA_BUILD_SERVER": "OFF",
-        "LLAMA_BUILD_COMMON": "ON",
-
-        "CMAKE_C_FLAGS": "-pthread",
-        "CMAKE_CXX_FLAGS": "-pthread",
-        "CMAKE_EXE_LINKER_FLAGS": "-pthread"
+        "LLAMA_BUILD_COMMON": "ON"
       }
     }
   ],
