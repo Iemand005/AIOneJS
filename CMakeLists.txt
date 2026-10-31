@@ -34,18 +34,19 @@ if(EMSCRIPTEN)
         bindings/web/Main.cpp
     )
 
+    target_include_directories(AIOneWeb PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/../AIOne/include"
+    )
+
     target_link_options(AIOneWeb PRIVATE
+
         --bind
         -sMODULARIZE=1
         -sEXPORT_ES6=1
         -sENVIRONMENT=web
-    )
-    
+        )
     target_link_libraries(AIOneWeb PRIVATE AIOneCore)
 
-    target_include_directories(AIOneWeb PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../AIOne/include"
-    )
 
 
     set_target_properties(AIOneWeb PROPERTIES
