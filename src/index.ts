@@ -1,1 +1,0 @@
-const AIOne = require("./build/Debug/AIOneNode.node");
