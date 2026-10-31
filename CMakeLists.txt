@@ -39,16 +39,15 @@ if(EMSCRIPTEN)
     )
 
     target_link_options(AIOneWeb PRIVATE
-
         --bind
         -sMODULARIZE=1
         -sEXPORT_ES6=1
         -sENVIRONMENT=web
-         "-sMODULARIZE=1"
-            "-sEXPORT_ES6=1"
-            "-sEXPORTED_RUNTIME_METHODS=FS,WORKERFS"
-            "-lworkerfs.js"
+        -sFORCE_FILESYSTEM=1
+        "-sEXPORTED_RUNTIME_METHODS=FS"
+        -lworkerfs.js
     )
+    
     target_link_libraries(AIOneWeb PRIVATE AIOneCore)
 
 
