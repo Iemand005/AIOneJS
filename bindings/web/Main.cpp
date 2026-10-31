@@ -1,6 +1,6 @@
 #include <emscripten/bind.h>
 
-#include <ModelSession.hpp>
+#include "ModelSession.hpp"
 
 namespace {
 
