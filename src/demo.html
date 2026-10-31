@@ -36,7 +36,7 @@
 
                         Module.FS.mkdir("/models");
                         Module.FS.mount(
-                            Module.WORKERFS,
+                            Module.FS.filesystems.WORKERFS,
                             { files: [data.file] },
                             "/models"
                         );
