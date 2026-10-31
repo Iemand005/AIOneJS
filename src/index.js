@@ -1,5 +1,5 @@
-const AIOne = require("../build/Debug/AIOneNode.node");
+const aione = require("../build/Debug/AIOneNode.node");
 
-console.log(AIOne.hello());
+console.log(aione.hello());
 
-AIOne.loadModel("")
+aione.loadModel("")
