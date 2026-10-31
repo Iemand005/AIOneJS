@@ -29,14 +29,20 @@ if(NOT EXISTS "${NODE_API_HEADERS_DIR}/node_api.h")
 endif()
 
 if(EMSCRIPTEN)
-    add_compile_options("-sMEMORY64=1")
-    add_link_options("-sMEMORY64=1")
 
     add_executable(AIOneWeb
         bindings/web/Main.cpp
     )
 
+    target_link_options(AIOneWeb PRIVATE
+        --bind
+        -sMODULARIZE=1
+        -sEXPORT_ES6=1
+        -sENVIRONMENT=web
+    )
+    
     target_link_libraries(AIOneWeb PRIVATE AIOneCore)
+
 
     set_target_properties(AIOneWeb PROPERTIES
         SUFFIX ".html"
