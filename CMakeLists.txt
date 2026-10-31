@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(AIOneJS LANGUAGES C CXX)
 
+set(LLAMA_BUILD_COMMON ON CACHE BOOL "" FORCE)
+
 add_subdirectory(
     "../AIOne"
     "${CMAKE_CURRENT_BINARY_DIR}/AIOne"
