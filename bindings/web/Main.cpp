@@ -1,20 +1,17 @@
 #include <emscripten/bind.h>
+#include "ModelSession.hpp"
 
-#include <ModelSession.hpp>
-
-namespace {
-
-AIOne::ModelSession session;
-
-}
+using namespace emscripten;
 
 EMSCRIPTEN_BINDINGS(ai_one) {
-    emscripten::function("hello", [] {
-        return std::string("Hello from C++");
+    function("hello", []() {
+        return std::string("Hello from AIOne");
     });
 
-    emscripten::function("loadModel", &AIOne::ModelSession::loadModel);
-    emscripten::function("generate", &AIOne::ModelSession::generate);
-    emscripten::function("unloadModel", &AIOne::ModelSession::unloadModel);
-    emscripten::function("isLoaded", &AIOne::ModelSession::isLoaded);
+    class_<AIOne::ModelSession>("ModelSession")
+        .constructor<>()
+        .function("loadModel", &AIOne::ModelSession::loadModel)
+        .function("generate", &AIOne::ModelSession::generate)
+        .function("unloadModel", &AIOne::ModelSession::unloadModel)
+        .function("isLoaded", &AIOne::ModelSession::isLoaded);
 }
