@@ -15,7 +15,14 @@
   "type": "commonjs",
   "main": "index.js",
   "types": "index.d.ts",
-  "scripts": {
+  "os": ["win32"],
+  "cpu": ["x64"],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "build/Release/AIOneNode.node"
+  ],  "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
