@@ -1,0 +1,23 @@
+{
+  "name": "aionejs",
+  "version": "1.0.0",
+  "description": "hi",
+  "homepage": "https://github.com/Iemand005/AIOneJS#readme",
+  "bugs": {
+    "url": "https://github.com/Iemand005/AIOneJS/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Iemand005/AIOneJS.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "node-addon-api": "^8.9.2"
+  }
+}
