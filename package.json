@@ -18,7 +18,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "node-addon-api": "^8.9.2",
+    "node-addon-api": "^8.9.2"
+  },
+  "devDependencies": {
     "node-api-headers": "^1.9.0"
   }
 }

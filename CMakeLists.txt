@@ -7,11 +7,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Node.js
-find_path(NODE_INCLUDE_DIR
+find_path(NODE_API_HEADERS_DIR
     node_api.h
     PATHS
-        "C:/Program Files/nodejs/include/node"
-        "C:/Program Files/nodejs"
+        "${CMAKE_CURRENT_SOURCE_DIR}/node_modules/node-api-headers"
+        "${CMAKE_CURRENT_SOURCE_DIR}/node_modules/node-api-headers/include"
+    PATH_SUFFIXES
+        node
     REQUIRED
 )
 
