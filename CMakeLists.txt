@@ -27,6 +27,11 @@ target_link_libraries(AIOneNode PRIVATE
     ${CMAKE_JS_LIB}
 )
 
+target_compile_definitions(AIOneNode PRIVATE
+    NODE_GYP_MODULE_NAME=AIOneNode
+    NAPI_VERSION=8
+)
+
 set_target_properties(AIOneNode PROPERTIES
     PREFIX ""
     SUFFIX ".node"
