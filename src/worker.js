@@ -12,15 +12,13 @@ self.onmessage = async ({ data }) => {
             const { default: createModule } = await import(moduleUrl);
 
             const Module = await createModule({
-                locateFile: path =>
-                    new URL(path, moduleUrl).href
-            });
+				workerFile: data.file,
+				locateFile: path =>
+					new URL(path, moduleUrl).href
+			});
 
-            Module.FS.mkdir("/models");
-            FS.mount(WORKERFS, { files: files }, "/working");
-
-            session = new Module.ModelSession();
-            session.loadModel("/models/" + data.file.name);
+			session = new Module.ModelSession();
+			session.loadModel("/models/" + data.file.name);
 
             self.postMessage({ type: "loaded" });
         }

@@ -42,10 +42,10 @@ if(EMSCRIPTEN)
         --bind
         -sMODULARIZE=1
         -sEXPORT_ES6=1
-        -sENVIRONMENT=web,worker
+        -sENVIRONMENT=worker
         -sFORCE_FILESYSTEM=1
-        "-sEXPORTED_RUNTIME_METHODS=FS"
         -lworkerfs.js
+        --pre-js "${CMAKE_CURRENT_SOURCE_DIR}/workerfs-bridge.js"
     )
 
     target_link_libraries(AIOneWeb PRIVATE AIOneCore)
