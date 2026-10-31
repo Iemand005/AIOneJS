@@ -4,9 +4,9 @@
 using namespace emscripten;
 
 EMSCRIPTEN_BINDINGS(ai_one) {
-    function("hello", []() {
-        return std::string("Hello from AIOne");
-    });
+    // function("hello", []() {
+    //     return std::string("Hello from AIOne");
+    // });
 
     class_<AIOne::ModelSession>("ModelSession")
         .constructor<>()
