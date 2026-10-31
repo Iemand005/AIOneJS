@@ -17,13 +17,9 @@ find_path(NODE_API_HEADERS_DIR
     REQUIRED
 )
 
-find_library(NODE_LIBRARY
-    NAMES node
-    PATHS
-        "C:/Program Files/nodejs"
-        "C:/Program Files/nodejs/lib"
-        "C:/Program Files/nodejs/lib/node"
-    REQUIRED
+target_include_directories(AIOneNode PRIVATE
+    "${NODE_API_HEADERS_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/node_modules/node-addon-api"
 )
 
 # AIOne
