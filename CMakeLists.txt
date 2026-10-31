@@ -28,4 +28,7 @@ target_link_libraries(AIOneNode PRIVATE
 set_target_properties(AIOneNode PROPERTIES
     PREFIX ""
     SUFFIX ".node"
+	CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
 )
