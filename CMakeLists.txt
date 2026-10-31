@@ -50,6 +50,7 @@ if(EMSCRIPTEN)
         -g
         -sASSERTIONS=2
         -fexceptions
+        -sSTACK_SIZE=16MB
         --pre-js "${CMAKE_CURRENT_SOURCE_DIR}/workerfs-bridge.js"
     )
 
