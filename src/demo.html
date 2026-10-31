@@ -18,7 +18,7 @@
         const loadButton = document.getElementById("load");
         const status = document.getElementById("status");
 
-        const moduleUrl = new URL("/build/emscripten-webgpu/AIOneWeb.html", location.href).href;
+        const moduleUrl = new URL("/build/emscripten-webgpu/AIOneWeb.js", location.href).href;
 
         const workerCode = `
             let session;
