@@ -11,13 +11,24 @@ ModelFactory factory;
 Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
     exports.Set("hello", Napi::Function::New(env, Hello));
+    exports.Set("loadModel", Napi::Function::New(env, LoadModel));
 	// factory.
     return exports;
 }
 
-Napi::Object LoadModel(Napi::String path) {
+Napi::Value LoadModel(const Napi::CallbackInfo& info) {
+    auto env = info.Env();
+
+    if (info.Length() < 1 || !info[0].IsString()) {
+        Napi::TypeError::New(env, "Expected a model path").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
     LLModelOptions options;
-    factory.loadLLM(path.Utf8Value(), options);
+    auto model = factory.loadLLM(info[0].As<Napi::String>().Utf8Value(), options);
+
+    // Return or wrap model here
+    return env.Null();
 }
 
 NODE_API_MODULE(mylibrary, Init)
