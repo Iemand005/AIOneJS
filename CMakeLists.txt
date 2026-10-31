@@ -24,9 +24,9 @@ if(NOT EXISTS "${NODE_API_HEADERS_DIR}/node_api.h")
 endif()
 
 if(EMSCRIPTEN)
-add_compile_options("-sMEMORY64=1")
+    add_compile_options("-sMEMORY64=1")
     add_link_options("-sMEMORY64=1")
-    
+
     add_executable(AIOneWeb
         bindings/web/Main.cpp
     )
