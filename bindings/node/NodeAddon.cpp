@@ -8,13 +8,7 @@ Napi::String Hello(const Napi::CallbackInfo& info)
 
 ModelFactory factory;
 
-Napi::Object Init(Napi::Env env, Napi::Object exports)
-{
-    exports.Set("hello", Napi::Function::New(env, Hello));
-    exports.Set("loadModel", Napi::Function::New(env, LoadModel));
-	// factory.
-    return exports;
-}
+
 
 Napi::Value LoadModel(const Napi::CallbackInfo& info) {
     auto env = info.Env();
@@ -30,5 +24,14 @@ Napi::Value LoadModel(const Napi::CallbackInfo& info) {
     // Return or wrap model here
     return env.Null();
 }
+
+Napi::Object Init(Napi::Env env, Napi::Object exports)
+{
+    exports.Set("hello", Napi::Function::New(env, Hello));
+    exports.Set("loadModel", Napi::Function::New(env, LoadModel));
+	// factory.
+    return exports;
+}
+
 
 NODE_API_MODULE(mylibrary, Init)
