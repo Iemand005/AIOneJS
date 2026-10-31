@@ -1,3 +1,4 @@
+#include "ModelFactory.hpp"
 #include <emscripten/bind.h>
 #include <string>
 
@@ -6,6 +7,8 @@
 std::string version() {
     return "AIOne Web 1.0";
 }
+
+ModelFactory factory;
 
 std::string echo(const std::string& input) {
     return input;
