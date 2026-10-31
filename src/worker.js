@@ -17,11 +17,7 @@ self.onmessage = async ({ data }) => {
             });
 
             Module.FS.mkdir("/models");
-            Module.FS.mount(
-                Module.FS.filesystems.WORKERFS,
-                { files: [data.file] },
-                "/models"
-            );
+            FS.mount(WORKERFS, { files: files }, "/working");
 
             session = new Module.ModelSession();
             session.loadModel("/models/" + data.file.name);
