@@ -1,22 +1,45 @@
-#include "ModelFactory.hpp"
 #include <emscripten/bind.h>
-#include <string>
 
-#include <AIOne>
+#include "ModelSession.hpp"
 
-std::string version() {
-    return "AIOne Web 1.0";
+namespace {
+
+ModelSession session;
+
+std::string Hello() {
+    return "Hello from C++";
 }
 
-ModelFactory factory;
-
-std::string echo(const std::string& input) {
-    return input;
+void LoadModel(const std::string& path) {
+    session.loadModel(path);
 }
 
+std::string Generate(const std::string& prompt) {
+    return session.generate(prompt);
+}
 
+std::string GenerateWithOptions(
+    const std::string& prompt,
+    unsigned int maxTokens
+) {
+    return session.generate(prompt, maxTokens);
+}
+
+void UnloadModel() {
+    session.unloadModel();
+}
+
+bool IsLoaded() {
+    return session.isLoaded();
+}
+
+}
 
 EMSCRIPTEN_BINDINGS(ai_one) {
-    emscripten::function("version", &version);
-    emscripten::function("echo", &echo);
+    emscripten::function("hello", &Hello);
+    emscripten::function("loadModel", &LoadModel);
+    emscripten::function("generate", &Generate);
+    emscripten::function("generateWithOptions", &GenerateWithOptions);
+    emscripten::function("unloadModel", &UnloadModel);
+    emscripten::function("isLoaded", &IsLoaded);
 }
