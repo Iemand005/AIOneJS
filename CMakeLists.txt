@@ -44,7 +44,11 @@ if(EMSCRIPTEN)
         -sMODULARIZE=1
         -sEXPORT_ES6=1
         -sENVIRONMENT=web
-        )
+         "-sMODULARIZE=1"
+            "-sEXPORT_ES6=1"
+            "-sEXPORTED_RUNTIME_METHODS=FS,WORKERFS"
+            "-lworkerfs.js"
+    )
     target_link_libraries(AIOneWeb PRIVATE AIOneCore)
 
 
