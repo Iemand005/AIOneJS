@@ -18,67 +18,7 @@
         const loadButton = document.getElementById("load");
         const status = document.getElementById("status");
 
-        const moduleUrl = new URL("/build/emscripten-webgpu/AIOneWeb.js", location.href).href;
-
-        const workerCode = `
-            let session;
-
-            self.onmessage = async ({ data }) => {
-                try {
-                    if (data.type === "load") {
-                        const { default: createModule } =
-                            await import(data.moduleUrl);
-
-                        const Module = await createModule({
-                            locateFile: path =>
-                                new URL(path, data.moduleUrl).href
-                        });
-a
-                        Module.FS.mkdir("/models");
-                        Module.FS.mount(
-                            Module.FS.filesystems.WORKERFS,
-                            { files: [data.file] },
-                            "/models"
-                        );
-
-                        session = new Module.ModelSession();
-
-                        session.loadModel(
-                            "/models/" + data.file.name
-                        );
-
-                        self.postMessage({
-                            type: "loaded"
-                        });
-                    }
-
-                    if (data.type === "generate") {
-                        const result = session.generate(
-                            data.prompt,
-                            data.maxTokens
-                        );
-
-                        self.postMessage({
-                            type: "generated",
-                            result
-                        });
-                    }
-                } catch (error) {
-                    self.postMessage({
-                        type: "error",
-                        message: error.message
-                    });
-                }
-            };
-        `;
-
-        const workerURL = URL.createObjectURL(
-            new Blob([workerCode], {
-                type: "text/javascript"
-            })
-        );
-
-        const worker = new Worker(workerURL, {
+        const worker = new Worker("./worker.js", {
             type: "module"
         });
 
@@ -90,14 +30,12 @@ a
             const file = input.files[0];
 
             loadButton.disabled = true;
-
             status.textContent =
                 `Loading ${file.name} (${(file.size / 1073741824).toFixed(2)} GB)...`;
 
             worker.postMessage({
                 type: "load",
-                file,
-                moduleUrl
+                file
             });
         });
 
