@@ -15,7 +15,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
     return exports;
 }
 
-Napi::Object LoadModel(Napi::Env env, Napi::String path) {
+Napi::Object LoadModel(Napi::String path) {
     LLModelOptions options;
     factory.loadLLM(path.Utf8Value(), options);
 }
