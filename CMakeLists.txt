@@ -42,12 +42,12 @@ if(EMSCRIPTEN)
         --bind
         -sMODULARIZE=1
         -sEXPORT_ES6=1
-        -sENVIRONMENT=web
+        -sENVIRONMENT=web,worker
         -sFORCE_FILESYSTEM=1
         "-sEXPORTED_RUNTIME_METHODS=FS"
         -lworkerfs.js
     )
-    
+
     target_link_libraries(AIOneWeb PRIVATE AIOneCore)
 
 
