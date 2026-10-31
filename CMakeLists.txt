@@ -22,6 +22,12 @@ target_include_directories(AIOneNode PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/node_modules/node-api-headers/include"
 )
 
+if(WIN32)
+    target_link_options(AIOneNode PRIVATE
+        "/FORCE:UNRESOLVED"
+    )
+endif()
+
 target_link_libraries(AIOneNode PRIVATE
     AIOne::Core
     ${CMAKE_JS_LIB}
