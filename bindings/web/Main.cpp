@@ -1,6 +1,8 @@
 #include <emscripten/bind.h>
 #include <string>
 
+#include <AIOne>
+
 std::string version() {
     return "AIOne Web 1.0";
 }
