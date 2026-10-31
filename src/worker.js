@@ -2,7 +2,7 @@
 let session;
 
 const moduleUrl = new URL(
-    "./build/emscripten-webgpu/AIOneWeb.js",
+    "/build/emscripten-webgpu/AIOneWeb.js",
     import.meta.url
 ).href;
 
