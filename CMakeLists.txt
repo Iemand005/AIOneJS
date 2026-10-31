@@ -35,7 +35,8 @@ target_compile_definitions(AIOneNode PRIVATE
 set_target_properties(AIOneNode PROPERTIES
     PREFIX ""
     SUFFIX ".node"
-	CXX_STANDARD 17
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
+    WINDOWS_EXPORT_ALL_SYMBOLS ON
 )
