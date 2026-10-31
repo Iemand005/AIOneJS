@@ -18,7 +18,7 @@
     {
       "name": "Release",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build",
+      "binaryDir": "${sourceDir}/build/Release",
       "architecture": {
         "value": "x64",
         "strategy": "external"
