@@ -16,7 +16,7 @@ async function initialize(file) {
 
     if (!initializing && !module) {
         initializing = (async () => {
-            module = await createAIOneModule({
+            module = await Module({
                 workerFile: file,
 
                 locateFile: path =>
