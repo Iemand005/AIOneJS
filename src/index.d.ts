@@ -1,6 +1,4 @@
-interface AIOneNative {
-    /** Returns a static greeting; useful as a load smoke test. */
-    hello(): string;
+export interface AIOne {
 
     /**
      * Loads a GGUF model and offloads all layers to the preferred GPU
@@ -16,6 +14,3 @@ interface AIOneNative {
     /** Unloads the model and frees its VRAM. */
     unloadModel(): void;
 }
-
-declare const AIOne: AIOneNative;
-export = AIOne;
