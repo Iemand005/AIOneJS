@@ -11,3 +11,8 @@ export default class AIOne {
     unloadModel(): Promise<void>;
     close(): void;
 }
+
+export interface Message {
+    role: "user" | "assistant";
+    content: string;
+}
