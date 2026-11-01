@@ -5,6 +5,8 @@ let mountedFile;
 
 let operationQueue = Promise.resolve();
 
+const BASE_URL = "https://iemand005.github.io/AIOneJS/web/";
+
 async function initialize(file) {
     if (session) {
         throw new Error("A model is already loaded");
@@ -20,7 +22,7 @@ async function initialize(file) {
                 workerFile: file,
 
                 locateFile: path =>
-                    new URL(path, self.AIOne_BASE_URL).href
+                    new URL(path, BASE_URL).href
             });
 
             mountedFile = file.name;
