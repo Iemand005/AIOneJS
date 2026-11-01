@@ -1,54 +1,92 @@
-
+let module;
 let session;
+let initializing;
+let mountedFile;
 
-const moduleUrl = new URL(
-    "/build/emscripten-webgpu/AIOneWeb.js",
-    import.meta.url
-).href;
+let operationQueue = Promise.resolve();
 
-self.onmessage = async ({ data }) => {
-    try {
-        if (data.type === "load") {
-            const { default: createModule } = await import(moduleUrl);
+async function initialize(file) {
+    if (session) {
+        throw new Error("A model is already loaded");
+    }
 
-            const Module = await createModule({
-				workerFile: data.file,
-				locateFile: path =>
-					new URL(path, moduleUrl).href
-			});
+    if (module && mountedFile !== file.name) {
+        throw new Error("This runtime is already initialized with another model file");
+    }
 
-			session = new Module.ModelSession();
-			session.loadModel("/models/" + data.file.name);
+    if (!initializing && !module) {
+        initializing = (async () => {
+            module = await createAIOneModule({
+                workerFile: file,
 
-            self.postMessage({ type: "loaded" });
+                locateFile: path =>
+                    new URL(path, self.AIOne_BASE_URL).href
+            });
+
+            mountedFile = file.name;
+            session = new module.ModelSession();
+        })();
+
+        try {
+            await initializing;
+        } catch (error) {
+            initializing = undefined;
+            module = undefined;
+            throw error;
         }
+    } else if (initializing) {
+        await initializing;
+    }
 
-        if (data.type === "generate") {
-            if (!session || !session.isLoaded()) {
-                throw new Error("No model loaded");
+    session.loadModel("/models/" + file.name);
+}
+
+async function invoke(method, args) {
+    switch (method) {
+        case "loadModel":
+            return initialize(args.file);
+
+        case "generate":
+            if (!session?.isLoaded()) {
+                throw new Error("No model is loaded");
             }
 
-            const result = session.generate(
-                data.prompt,
-                data.maxTokens ?? 128
-            );
+            return session.generate(args.prompt, args.maxTokens ?? 512);
 
-            self.postMessage({
-                type: "generated",
-                result
-            });
-        }
+        case "unloadModel":
+            if (session?.isLoaded()) {
+                session.unloadModel();
+            }
+            return;
 
-        if (data.type === "unload") {
-            session?.unloadModel();
-            session = undefined;
-
-            self.postMessage({ type: "unloaded" });
-        }
-    } catch (error) {
-        self.postMessage({
-            type: "error",
-            message: error.message
-        });
+        default:
+            throw new Error(`Unknown method: ${method}`);
     }
+}
+
+self.onconnect = event => {
+    const port = event.ports[0];
+
+    port.onmessage = ({ data }) => {
+        const execute = operationQueue.then(() =>
+            invoke(data.method, data.args ?? {})
+        );
+
+        operationQueue = execute.catch(() => {});
+
+        execute.then(
+            result => port.postMessage({
+                id: data.id,
+                result
+            }),
+
+            error => port.postMessage({
+                id: data.id,
+                error: error?.message ?? String(error)
+            })
+        );
+    };
+
+    port.start();
+    port.postMessage({ type: "ready" });
 };
