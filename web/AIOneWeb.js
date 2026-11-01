@@ -108,7 +108,11 @@ var quit_ = (status, toThrow) => {
   throw toThrow;
 };
 
-var _scriptName = import.meta.url;
+var _scriptName;
+
+if (ENVIRONMENT_IS_WORKER) {
+  _scriptName = self.location.href;
+}
 
 // `/` should be present at the end if `scriptDirectory` is not empty
 var scriptDirectory = '';
@@ -546,14 +550,7 @@ function createExportWrapper(name, func, nargs) {
 var wasmBinaryFile;
 
 function findWasmBinary() {
-
-  if (Module['locateFile']) {
-    return locateFile('AIOneWeb.wasm');
-  }
-
-  // Use bundler-friendly `new URL(..., import.meta.url)` pattern; works in browsers too.
-  return new URL('AIOneWeb.wasm', import.meta.url).href;
-
+  return locateFile('AIOneWeb.wasm');
 }
 
 function getBinarySync(file) {
@@ -8636,5 +8633,11 @@ for (const prop of Object.keys(Module)) {
 }
 
 // Export using a UMD style export, or ES6 exports if selected
-export default Module;
+if (typeof exports === 'object' && typeof module === 'object') {
+  module.exports = Module;
+  // This default export looks redundant, but it allows TS to import this
+  // commonjs style module.
+  module.exports.default = Module;
+} else if (typeof define === 'function' && define['amd'])
+  define([], () => Module);
 
