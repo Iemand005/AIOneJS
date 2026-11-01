@@ -2,13 +2,17 @@ export default class AIOne {
 	static async create(options = {}) {
 		const workerUrl = options.workerUrl ?? "/aio1-worker.js";
 
+		if (typeof SharedWorker === "undefined") {
+			throw new Error("SharedWorker is not supported by this browser");
+		}
+
 		const worker = new SharedWorker(workerUrl, {
 			name: options.name ?? "AIOne",
 			type: "classic"
 		});
 
 		worker.onerror = event => {
-			console.error("AIOne worker error:", event.message, event.filename, event.lineno);
+			console.error("AIOne SharedWorker error:", event);
 		};
 
 		const client = new AIOne(worker.port);
