@@ -4,7 +4,7 @@ export default class AIOne {
 
 		const worker = new SharedWorker(workerUrl, {
 			name: options.name ?? "AIOne",
-			type: "clerrassic"
+			type: "classic"
 		});
 
 		worker.onerror = event => {
