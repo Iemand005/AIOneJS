@@ -41,7 +41,6 @@ if(EMSCRIPTEN)
     target_link_options(AIOneWeb PRIVATE
         --bind
         -sMODULARIZE=1
-        -sEXPORT_NAME=createAIOneModule
         -sENVIRONMENT=worker
         -sFORCE_FILESYSTEM=1
         -lworkerfs.js
