@@ -1,16 +1,7 @@
 export interface AIOne {
+    loadModel(path: string): void | Promise<void>;
 
-    /**
-     * Loads a GGUF model and offloads all layers to the preferred GPU
-     * (falls back to iGPU/CPU when no GPU is available). Blocks until loaded.
-     */
-    loadModel(path: string): void;
+    generate(prompt: string, maxTokens?: number): string | Promise<string>;
 
-    /**
-     * Runs a synchronous completion against the loaded model.
-     */
-    generate(prompt: string, maxTokens?: number): string;
-
-    /** Unloads the model and frees its VRAM. */
-    unloadModel(): void;
+    unloadModel(): void | Promise<void>;
 }
